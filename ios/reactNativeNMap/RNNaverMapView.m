@@ -118,6 +118,13 @@
       @"contentRegion" : pointsToJson(mapView.contentRegion.exteriorRing.points),
       @"coveringRegion": pointsToJson(mapView.coveringRegion.exteriorRing.points),
     });
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (((RNNaverMapView*)self) != nil) {
+            ((RNNaverMapView*)self).onInitialized();
+        }
+    });
 }
 
 static NSArray* pointsToJson(NSArray<NMGLatLng*> *points) {
