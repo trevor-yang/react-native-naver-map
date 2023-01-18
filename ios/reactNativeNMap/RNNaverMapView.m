@@ -121,7 +121,7 @@
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        if (((RNNaverMapView*)self) != nil) {
+        if (((RNNaverMapView*)self).onInitialized != nil) {
             ((RNNaverMapView*)self).onInitialized();
         }
     });
