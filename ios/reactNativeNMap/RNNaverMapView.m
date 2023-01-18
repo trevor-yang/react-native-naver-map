@@ -120,11 +120,12 @@
     });
     
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        if (((RNNaverMapView*)self).onInitialized != nil) {
-            ((RNNaverMapView*)self).onInitialized(@{});
-        }
-    });
+
+    if (((RNNaverMapView*)self).onInitialized != nil) {
+      dispatch_once(&onceToken, ^{
+        ((RNNaverMapView*)self).onInitialized(@{});
+      });
+    }
 }
 
 static NSArray* pointsToJson(NSArray<NMGLatLng*> *points) {
