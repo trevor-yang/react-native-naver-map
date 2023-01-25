@@ -29,6 +29,7 @@
 @implementation RNNaverMapView
 {
   NSMutableArray<UIView *> *_reactSubviews;
+  BOOL _isInitialized;
 }
 
 - (nonnull instancetype)initWithFrame:(CGRect)frame
@@ -118,13 +119,10 @@
       @"contentRegion" : pointsToJson(mapView.contentRegion.exteriorRing.points),
       @"coveringRegion": pointsToJson(mapView.coveringRegion.exteriorRing.points),
     });
-    
-    static dispatch_once_t onceToken;
 
-    if (((RNNaverMapView*)self).onInitialized != nil) {
-      dispatch_once(&onceToken, ^{
+    if (((RNNaverMapView*)self).onInitialized != nil && !_isInitialized) {
+        _isInitialized = YES;
         ((RNNaverMapView*)self).onInitialized(@{});
-      });
     }
 }
 
