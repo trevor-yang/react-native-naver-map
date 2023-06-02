@@ -179,6 +179,10 @@
    _realMarker.subCaptionMaxZoom = subMaxZoom;
 }
 
+- (void)setEdge:(NSInteger)edge{
+   _edge = edge;
+}
+
 - (void)setImage:(NSString *) image
 {
   _image = image;
@@ -193,12 +197,14 @@
     return;
   }
 
-  NMFOverlayImage *overlayImage = [_overlayImageHolder valueForKey:image];
-  if (overlayImage != nil) {
-    if (self->_iconImageView) [self->_iconImageView removeFromSuperview];
-    self->_realMarker.iconImage = overlayImage;
-    return;
-  }
+if(_edge == 0){
+    NMFOverlayImage *overlayImage = [_overlayImageHolder valueForKey:image];
+    if (overlayImage != nil) {
+        if (self->_iconImageView) [self->_iconImageView removeFromSuperview];
+        self->_realMarker.iconImage = overlayImage;
+        return;
+    }
+}
 
   _reloadImageCancellationBlock = [[_bridge moduleForClass:[RCTImageLoader class]] loadImageWithURLRequest:[RCTConvert NSURLRequest:_image]
                                                                           size:self.bounds.size
@@ -214,12 +220,48 @@
                                                                  }
                                                                  dispatch_async(dispatch_get_main_queue(), ^{
                                                                    if (self->_iconImageView) [self->_iconImageView removeFromSuperview];
-                                                                   NMFOverlayImage *overlayImage = [NMFOverlayImage overlayImageWithImage: image];
-                                                                   self->_realMarker.iconImage = overlayImage;
+                                                                     
+                                                                     if(self->_edge == 0){
+                                                                         if (self->_iconImageView) [self->_iconImageView removeFromSuperview];
+                                                                                                                                            NMFOverlayImage *overlayImage = [NMFOverlayImage overlayImageWithImage: image];
+                                                                                                                                            self->_realMarker.iconImage = overlayImage;
 
-                                                                   [_overlayImageHolder setObject:overlayImage forKey:self->_image];
+                                                                                                                                            [_overlayImageHolder setObject:overlayImage forKey:self->_image];
+                                                                     }else{
+                                                                         
+                                                                         UIImage *resizedImage =  [self strechImageSides:image newWidth:self->_realMarker.width wideEdge:self->_edge];
+                                                                         
+                                                                         NMFOverlayImage *overlayImage = [NMFOverlayImage overlayImageWithImage: resizedImage];
+                                                                         self->_realMarker.iconImage = overlayImage;
+                                                                         
+                                                                         [_overlayImageHolder setObject:overlayImage forKey:self->_image];
+                                                                     }
                                                                  });
                                                                }];
 }
+- (UIImage *)strechImageSides:(UIImage *)image newWidth:(CGFloat)_newWidth wideEdge:(NSInteger) inset{
+    NSInteger newWidth = _newWidth / image.scale;
+    if(image.size.width >= newWidth){
+        return image;
+    }
+    NSLog(@" %f  %f", image.size.width, _newWidth);
+    CGFloat originalWidth = image.size.width;
+    CGFloat tiledAreaWidth = ceil((newWidth - originalWidth)/2.0);
+    
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(originalWidth + tiledAreaWidth, image.size.height), NO, 0);
+    UIImage *firstResizable = [image resizableImageWithCapInsets:UIEdgeInsetsMake(0, inset, 0, originalWidth - (inset + 1)) resizingMode:UIImageResizingModeTile];
+    [firstResizable drawInRect:CGRectMake(0, 0, originalWidth + tiledAreaWidth, image.size.height)];
+    UIImage *leftPart = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
 
+
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(newWidth, image.size.height), NO, 0);
+    UIImage *secondResizable = [leftPart resizableImageWithCapInsets:UIEdgeInsetsMake(0, (originalWidth - inset - 1 ) + tiledAreaWidth, 0, inset) resizingMode:UIImageResizingModeTile];
+    [secondResizable drawInRect:CGRectMake(0, 0, newWidth, image.size.height)];
+    UIImage *fullImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return fullImage;
+
+}
 @end

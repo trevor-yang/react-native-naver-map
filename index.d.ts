@@ -152,6 +152,7 @@ export interface MarkerProps extends MapOverlay {
     rotation?: number;
     flat?: boolean;
     image?: ImageSourcePropType;
+    edge: number;
     width?: number;
     height?: number;
     alpha?: number;
