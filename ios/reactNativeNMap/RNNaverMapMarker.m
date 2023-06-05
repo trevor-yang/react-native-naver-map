@@ -71,13 +71,15 @@
 - (void) insertReactSubview:(UIView *)subview atIndex:(NSInteger)atIndex {
     self -> _customView = subview;
     if(subview != nil){
-      UIGraphicsBeginImageContextWithOptions(self->_customView.bounds.size, NO, 0.0);
-      [self->_customView drawViewHierarchyInRect:self->_customView.bounds afterScreenUpdates:YES];
-      UIImage * snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
-      UIGraphicsEndImageContext();
-      NMFOverlayImage *overlayImage2 = [NMFOverlayImage overlayImageWithImage: snapshotImage];
-      self->_realMarker.iconImage = overlayImage2;
-      [self setNeedsDisplay];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIGraphicsBeginImageContextWithOptions(self->_customView.bounds.size, NO, 0.0);
+            [self->_customView drawViewHierarchyInRect:self->_customView.bounds afterScreenUpdates:YES];
+            UIImage * snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            NMFOverlayImage *overlayImage2 = [NMFOverlayImage overlayImageWithImage: snapshotImage];
+            self->_realMarker.iconImage = overlayImage2;
+            [self setNeedsDisplay];
+        });
     }    
 }
 

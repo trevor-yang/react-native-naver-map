@@ -271,23 +271,22 @@ export interface MarkerProps extends MapOverlay {
 
 export class Marker extends Component<MarkerProps> {
     render() {
-        return(<View style={{marginHorizontal:1, paddingHorizontal:-1}}>
-            <RNNaverMapMarker
-                {...this.props}
-                image={getImageUri(this.props.image)}
-                caption={this.props.caption && {
-                    ...this.props.caption,
-                    textSize: this.props.caption.textSize ?? 12,
-                    color: parseColor(this.props.caption.color),
-                    haloColor: parseColor(this.props.caption.haloColor),
-                }}
-                subCaption={this.props.subCaption && {
-                    ...this.props.subCaption,
-                    textSize: this.props.subCaption.textSize ?? 12,
-                    color: parseColor(this.props.subCaption.color),
-                    haloColor: parseColor(this.props.subCaption.haloColor),
-                }}/>
-        </View>)
+        return<RNNaverMapMarker
+            {...this.props}
+            image={getImageUri(this.props.image)}
+            caption={this.props.caption && {
+                ...this.props.caption,
+                textSize: this.props.caption.textSize ?? 12,
+                color: parseColor(this.props.caption.color),
+                haloColor: parseColor(this.props.caption.haloColor),
+            }}
+            subCaption={this.props.subCaption && {
+                ...this.props.subCaption,
+                textSize: this.props.subCaption.textSize ?? 12,
+                color: parseColor(this.props.subCaption.color),
+                haloColor: parseColor(this.props.subCaption.haloColor),
+            }}/>
+        
     }
 }
 
