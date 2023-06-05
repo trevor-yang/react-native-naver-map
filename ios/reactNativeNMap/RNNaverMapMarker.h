@@ -30,7 +30,6 @@
 @property (nonatomic, assign) BOOL isForceShowIcon;
 @property (nonatomic, assign) CGFloat rotation;
 @property (nonatomic, copy) NSString *image;
-@property (nonatomic, assign) NSInteger edge;
 @property (nonatomic, strong) UIColor *pinColor;
 @property (nonatomic, assign) CGFloat alpha;
 @property (nonatomic, assign) CGPoint anchor;
@@ -52,8 +51,5 @@
 - (void)setSubCaptionRequestedWidth:(CGFloat) subCaptionWidth;
 - (void)setSubCaptionMinZoom:(double) subMinZoom;
 - (void)setSubCaptionMaxZoom:(double) subMaxZoom;
-- (void)setEdge:(NSInteger) edge;
-
-- (UIImage *)strechImageSides:(UIImage *)image newWidth:(CGFloat)_newWidth wideEdge:(NSInteger) inset;
 
 @end

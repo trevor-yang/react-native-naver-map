@@ -1,5 +1,5 @@
 import React, {Component, SyntheticEvent} from 'react';
-import {findNodeHandle, Image, ImageSourcePropType, NativeModules, Platform, processColor, requireNativeComponent, StyleProp, UIManager, ViewStyle,} from 'react-native';
+import {findNodeHandle, Image, ImageSourcePropType, NativeModules, Platform, processColor, requireNativeComponent, StyleProp, UIManager, View, ViewStyle,} from 'react-native';
 import { GpsUtils } from './gpsUtilsInterface'
 
 const RNNaverMapView = requireNativeComponent('RNNaverMapView');
@@ -234,7 +234,6 @@ export interface MarkerProps extends MapOverlay {
     rotation?: number;
     flat?: boolean;
     image?: ImageSourcePropType;
-    edge: number;
     width?: number;
     height?: number;
     alpha?: number;
@@ -271,21 +270,23 @@ export interface MarkerProps extends MapOverlay {
 
 export class Marker extends Component<MarkerProps> {
     render() {
-        return <RNNaverMapMarker
-            {...this.props}
-            image={getImageUri(this.props.image)}
-            caption={this.props.caption && {
-                ...this.props.caption,
-                textSize: this.props.caption.textSize ?? 12,
-                color: parseColor(this.props.caption.color),
-                haloColor: parseColor(this.props.caption.haloColor),
-            }}
-            subCaption={this.props.subCaption && {
-                ...this.props.subCaption,
-                textSize: this.props.subCaption.textSize ?? 12,
-                color: parseColor(this.props.subCaption.color),
-                haloColor: parseColor(this.props.subCaption.haloColor),
-            }}/>
+        return(<View style={{marginHorizontal:1, paddingHorizontal:-1}}>
+            <RNNaverMapMarker
+                {...this.props}
+                image={getImageUri(this.props.image)}
+                caption={this.props.caption && {
+                    ...this.props.caption,
+                    textSize: this.props.caption.textSize ?? 12,
+                    color: parseColor(this.props.caption.color),
+                    haloColor: parseColor(this.props.caption.haloColor),
+                }}
+                subCaption={this.props.subCaption && {
+                    ...this.props.subCaption,
+                    textSize: this.props.subCaption.textSize ?? 12,
+                    color: parseColor(this.props.subCaption.color),
+                    haloColor: parseColor(this.props.subCaption.haloColor),
+                }}/>
+        </View>)
     }
 }
 

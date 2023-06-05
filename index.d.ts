@@ -143,7 +143,7 @@ export interface MapOverlay {
     coordinate: Coord;
     onClick?: () => void;
 }
-export interface MarkerProps extends MapOverlay {
+export interface MarkerProps extends React.Component<MapOverlay> {
     anchor?: {
         x: number;
         y: number;
@@ -152,7 +152,6 @@ export interface MarkerProps extends MapOverlay {
     rotation?: number;
     flat?: boolean;
     image?: ImageSourcePropType;
-    edge: number;
     width?: number;
     height?: number;
     alpha?: number;
@@ -165,6 +164,7 @@ export interface MarkerProps extends MapOverlay {
     isHideCollidedCaptions?: boolean;
     isForceShowIcon?: boolean;
     animated?: boolean;
+    children?: React.ReactNode;
     caption?: {
         text?: string;
         align?: Align;
