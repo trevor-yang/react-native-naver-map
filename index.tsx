@@ -246,6 +246,7 @@ export interface MarkerProps extends MapOverlay {
     isHideCollidedCaptions?: boolean;
     isForceShowIcon?: boolean;
     animated?: boolean;
+    children?: React.ReactNode;
     caption?: {
         text?: string;
         align?: Align;
