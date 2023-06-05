@@ -51,4 +51,5 @@
 - (void)setSubCaptionRequestedWidth:(CGFloat) subCaptionWidth;
 - (void)setSubCaptionMinZoom:(double) subMinZoom;
 - (void)setSubCaptionMaxZoom:(double) subMaxZoom;
+
 @end

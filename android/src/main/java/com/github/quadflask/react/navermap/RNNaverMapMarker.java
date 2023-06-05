@@ -285,28 +285,31 @@ public class RNNaverMapMarker extends ClickableRNNaverMapFeature<Marker> impleme
     };
 
     private void updateCustomView() {
-        Log.d("MapMarker", "updateCustomView");
-        if (customViewBitmap == null
-                || customViewBitmap.isRecycled()
-                || customViewBitmap.getWidth() != feature.getWidth()
-                || customViewBitmap.getHeight() != feature.getHeight()) {
-            customViewBitmap = Bitmap.createBitmap(Math.max(1, feature.getWidth()), Math.max(1, feature.getHeight()), Bitmap.Config.ARGB_4444);
+        if(customView == null){
+            return;
         }
 
-        if (customView != null) {
-            customViewBitmap.eraseColor(Color.TRANSPARENT);
-            Canvas canvas = new Canvas(customViewBitmap);
+        if(customView.getWidth() == 0 || customView.getHeight() == 0){
+            Canvas canvas = new Canvas();
             this.draw(canvas);
             setOverlayImage(OverlayImage.fromBitmap(customViewBitmap));
+            return;
         }
-    }
 
-    @Override
-    public void requestLayout() {
-        super.requestLayout();
-        if (getChildCount() == 0 && customView != null) {
-            customView = null;
-            updateCustomView();
+        if (customViewBitmap == null
+                || customViewBitmap.isRecycled()
+                || customViewBitmap.getWidth() != customView.getWidth()
+                || customViewBitmap.getHeight() != customView.getHeight()) {
+            customViewBitmap = Bitmap.createBitmap(Math.max(1, customView.getWidth()), Math.max(1, customView.getHeight()), Bitmap.Config.ARGB_4444);
+            if (customViewBitmap != null) {
+                feature.setWidth(customView.getWidth());
+                feature.setHeight(customView.getHeight());
+
+                customViewBitmap.eraseColor(Color.TRANSPARENT);
+                Canvas canvas = new Canvas(customViewBitmap);
+                this.draw(canvas);
+                setOverlayImage(OverlayImage.fromBitmap(customViewBitmap));
+            }
         }
     }
 }
