@@ -290,7 +290,9 @@ public class RNNaverMapMarker extends ClickableRNNaverMapFeature<Marker> impleme
         }
 
         if(customView.getWidth() == 0 || customView.getHeight() == 0){
-            this.draw(new Canvas());
+            Canvas canvas = new Canvas();
+            this.draw(canvas);
+            setOverlayImage(OverlayImage.fromBitmap(customViewBitmap));
             return;
         }
 
