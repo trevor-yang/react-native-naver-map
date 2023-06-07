@@ -47,29 +47,10 @@
   }
   return self;
 }
-- (void)drawRect:(CGRect)rect {
-    NSLog(@"%@",NSStringFromCGSize(rect.size));
-    
-    if(_customView &&
-       (_customView.bounds.size.width != rect.size.width ||
-       _customView.bounds.size.height != rect.size.height)
-       ){
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIGraphicsBeginImageContextWithOptions(self->_customView.bounds.size, NO, 0.0);
-            [self->_customView drawViewHierarchyInRect:self->_customView.bounds afterScreenUpdates:YES];
-            UIImage * snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            
-            NMFOverlayImage *overlayImage2 = [NMFOverlayImage overlayImageWithImage: snapshotImage];
-            self->_realMarker.iconImage = overlayImage2;
-            
-        });
-    }    
-}
 
 - (void) insertReactSubview:(UIView *)subview atIndex:(NSInteger)atIndex {
     self -> _customView = subview;
+    _realMarker.alpha = 0;
     if(subview != nil){
         dispatch_async(dispatch_get_main_queue(), ^{
             UIGraphicsBeginImageContextWithOptions(self->_customView.bounds.size, NO, 0.0);
@@ -78,7 +59,7 @@
             UIGraphicsEndImageContext();
             NMFOverlayImage *overlayImage2 = [NMFOverlayImage overlayImageWithImage: snapshotImage];
             self->_realMarker.iconImage = overlayImage2;
-            [self setNeedsDisplay];
+            self->_realMarker.alpha = 1;
         });
     }    
 }
