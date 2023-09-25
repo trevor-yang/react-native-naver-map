@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, {Component, SyntheticEvent} from 'react';
 import {findNodeHandle, Image, ImageSourcePropType, NativeModules, Platform, processColor, requireNativeComponent, StyleProp, UIManager, View, ViewStyle,} from 'react-native';
 import { GpsUtils } from './gpsUtilsInterface'
