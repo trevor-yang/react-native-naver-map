@@ -12,11 +12,11 @@ Pod::Spec.new do |s|
   s.license      = package['license']
   s.platform     = :ios, "9.0"
 
-  s.source       = { :git => "https://github.com/trevor-yang/react-native-naver-map.git" }
+  s.source       = { :http => "https://repository.map.naver.com/archive/pod/NMapsMap/3.16.1/NMapsMap.zip" }
   s.source_files = "ios/**/*.{h,m}"
 
   s.static_framework = true
   s.dependency 'React'
-  s.dependency 'NMapsMap-Legacy', '~> 3.16.1'
+  s.dependency 'NMapsMap-Legacy'
 
 end
