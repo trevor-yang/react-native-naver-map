@@ -155,13 +155,8 @@ using namespace facebook::react;
     [_view setShowIndoorLevelPicker:next.isShowIndoorLevelPicker];
   if (prev.isShowLocationButton != next.isShowLocationButton)
     [_view setShowLocationButton:next.isShowLocationButton];
-    
-  static BOOL isFirstScaleBarSet = YES;
-
-  if (isFirstScaleBarSet || prev.isShowScaleBar != next.isShowScaleBar) {
+  if (prev.isShowScaleBar != next.isShowScaleBar)
     [_view setShowScaleBar:next.isShowScaleBar];
-    isFirstScaleBarSet = NO;
-  }
 
   static BOOL isFirstZoomControlsSet = YES;
 
